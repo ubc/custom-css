@@ -48,6 +48,7 @@ function slowAlert(){
 		w.dirty_css = false;
 		document.getElementById('msg').innerHTML =  '';
 		document.getElementById('spinner').style.display='none';
+		window.original_css = editor.getValue();
 	} else {
 		window.setTimeout( slowAlert, 2000 );
 	}
@@ -61,6 +62,7 @@ window.onbeforeunload = function() {
 }
 
 function close_window() {
+	w.jQuery("#simpler-css-style").text( window.original_css );
 	window.close();	
 }
 

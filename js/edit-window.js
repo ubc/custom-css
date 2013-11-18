@@ -6,8 +6,7 @@ var custom_css= {
 	css:'',
 	init:function(){
 		$( "#wp-admin-bar-improved-simpler-css-link" ).on( 'click', popup.open );
-		
-		custom_css.css = jQuery.trim( jQuery('#simpler-css-style').text() );
+		custom_css.css = $.trim( $('#simpler-css-style').text() );
 	},
 	join: function( options ) {
 	    var collect = [], part;
@@ -30,6 +29,7 @@ var custom_css= {
 }
 
 var popup = {
+	original_css : '',
  	win: false,
   	open: function(event){
  		//If popup is already open, give it focus and do nothing else
@@ -37,7 +37,10 @@ var popup = {
 			popup.win.focus();
 			popup.win.editor.gotoLine(0);
 			return;
+		} else {
+			popup.original_css = $.trim( jQuery('#simpler-css-style').text() );
 		}
+		custom_css.css = $.trim( $('#simpler-css-style').text() );
 		//open up popup window
 			var options = {
 					width: parseInt(screen.width * 0.33),
@@ -50,7 +53,7 @@ var popup = {
 			// Safari won't open popup after XHR calls, so we do it now.
 			popup.win = window.open('', 'stylin', custom_css.join( options ) );
 			
-			popup.win.document.write('<html>')
+			popup.win.document.write('<html>');
 			popup.win.document.write('<head><style type="text/css" media="screen"> #editor { position: absolute; top: 0; right: 0; bottom: 0;left: 0;} </style></head>');
 			popup.win.document.write('<body><div style="padding:10px; margin:-10px;  background:#EEE;"><input type="button" onclick="close_window();return false;" value="Close" /> <input type="button" value="Save" id="save-button" style="float:right;" onclick="save_css();return false;"  /><img src="'+custom_css_options.loader_image+'" id="spinner" alt="loading" style="float:right;margin:0 10px; display:none;" /><div id="msg" style="float:right; font:12px/18px sans-serif; margin-right:10px; color:#AAA ; "></div> </div>');
 			
@@ -63,9 +66,8 @@ var popup = {
 			popup.win.document.write('</body></html>');
 			
 			popup.win.document.close();
-			popup.win.true_save_css = custom_css.save_css; //
-			
-			
+			popup.win.true_save_css = custom_css.save_css;	
+			popup.win.original_css = popup.original_css;
 		
 			//Prompt the user before closing the parent window if the dirty flag is true since it'll 
 			//close the popup too
