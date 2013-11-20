@@ -112,7 +112,7 @@ class Improved_Simpler_CSS {
 		if ( !(current_user_can( 'manage_options' )) || !is_admin_bar_showing() || is_admin() )
 			return true;
 		
-		wp_enqueue_script( 'css-edit-window', plugins_url('js/edit-window.js', __FILE__), array('jquery'), 1, true );
+		wp_enqueue_script( 'css-edit-window', plugins_url('js/edit-window.js', __FILE__), array('jquery'), 2, true );
 		
 		$custom_css_options = array( 
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
