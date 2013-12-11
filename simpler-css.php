@@ -45,7 +45,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function init() {
+	public static function init() {
 		
 		require( 'lib/cpt-to-file.php' );
 		
@@ -74,7 +74,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function start(){
+	public static function start(){
 		
 		self::create_object();
 		
@@ -83,7 +83,7 @@ class Improved_Simpler_CSS {
 			self::version_update();
 		endif;
 		
-		if( $_GET['delete-test'] ){
+		if(isset($_GET['delete-test']) && $_GET['delete-test'] ){
 			self::$object->delete_all();
 		}
 	}
@@ -94,7 +94,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function create_object() {
+	public static function create_object() {
 		
 		self::$object = new CPT_to_file('s-custom-css', 'true', 'css', '.css' );
 	
@@ -106,7 +106,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function load_scripts() {
+	public static function load_scripts() {
 		
 		/* only load it if the user can edit the stuff */
 		if ( !(current_user_can( 'manage_options' )) || !is_admin_bar_showing() || is_admin() )
@@ -131,7 +131,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function version_update(){
+	public static function version_update(){
 		
 		// do we need to run a version update? 
 		if( get_option( 'improved-custom-css-verion' ) < 3 ) {
@@ -154,7 +154,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function load_style(){
+	public static function load_style(){
 		/* only load it if the user can edit the stuff */
 		if( !is_admin() ):
 			self::$load_style = true;
@@ -179,7 +179,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function include_css() {
+	public static function include_css() {
 		self::$url = self::get_url();
 
 		if( current_user_can( 'manage_options') || !self::$url ):
@@ -207,7 +207,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function adminbar_link() {
+	public static function adminbar_link() {
 	
 		global $wp_admin_bar;
 		if ( !(current_user_can( 'manage_options' )) || !is_admin_bar_showing() || is_admin() )
@@ -227,7 +227,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function admin() {
+	public static function admin() {
 		global $pagenow;
 		
 		if( 'post.php' == $pagenow && isset($_GET['post']) && isset($_GET['revision']) && isset($_GET['message']) && '5' == $_GET['message'] ){
@@ -250,7 +250,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function admin_menu(){
+	public static function admin_menu(){
 							
 		$page_hook_suffix = add_theme_page( 'custom-css', 'Custom CSS',  'manage_options', 'custom-css', array( __CLASS__, 'admin_page' ) );
 		
@@ -293,7 +293,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function ajax() {
+	public static function ajax() {
 	
 		if( !current_user_can( 'manage_options' ) ):
 			echo "Permission error. Try logging in again.";
@@ -342,13 +342,13 @@ class Improved_Simpler_CSS {
 	 * @param bool $form_cache (default: true)
 	 * @return void
 	 */
-	function get_css( $form_cache = true ) {
+	public static function get_css( $form_cache = true ) {
 		
 		if( !is_object( self::$object ) )
 			self::create_object();		
-			
+
 		$css = self::$object->get( $form_cache );
-		return $css->post_content;
+		return isset($css->post_content) ? $css->post_content : '';
 	}
 	
 	/**
@@ -357,7 +357,7 @@ class Improved_Simpler_CSS {
 	 * @access public
 	 * @return void
 	 */
-	function get_url(){
+	public static function get_url(){
 		if(self::$object)
 		return self::$object->get_url();
 	
