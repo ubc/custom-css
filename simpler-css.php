@@ -3,7 +3,7 @@
 Plugin Name: Custom CSS
 Plugin URI: 
 Description: Lets you add custom css to your web site
-Version: 2.0.2
+Version: 2.0.3
 Author: CTLT Dev
 Author URI: http://ctlt.ubc.ca
 
@@ -194,7 +194,7 @@ class Improved_Simpler_CSS {
 	
 	function make_url_agnostic($url){
 		
-		if(substr($url, 5) == 'https')
+		if(is_ssl())
 			return substr($url, 6);
 		else
 			return substr($url, 5); // assuming the url starts with http
