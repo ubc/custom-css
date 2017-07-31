@@ -64,6 +64,9 @@ them manually in your CSS code could lead to malfunctions.
 
 == Changelog ==
 
+= 2.0.3 =
+Update check for SSL
+
 = 2.0.2 =
 Minor bug fixes
 
