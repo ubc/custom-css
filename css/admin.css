@@ -1,0 +1,13 @@
+#global-editor-shell{
+	position: relative;
+	border: 1px solid #CCC;
+}
+
+.post-revisions{
+	max-height: 200px;
+	overflow-x: auto;
+}
+#footer-info{
+	color:#AAA;
+	clear:both;
+}
